@@ -1,0 +1,149 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red-Black Tree Visualizer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'visualizer/css/style.css' %}">
+</head>
+<body>
+    <div class="aurora aurora-one"></div>
+    <div class="aurora aurora-two"></div>
+    <div class="grid-overlay"></div>
+
+    <main class="app-shell">
+        <header class="hero">
+            <div>
+                <div class="eyebrow"><span class="pulse-dot"></span> Interactive Data Structure Lab</div>
+                <h1>Red-Black Tree <span>Visualizer</span></h1>
+                <p>
+                    Insert numbers and watch every comparison, recoloring, and rotation
+                    happen one step at a time.
+                </p>
+            </div>
+            <div class="legend-card glass-card">
+                <div class="legend-item"><span class="legend-node red"></span> Red node</div>
+                <div class="legend-item"><span class="legend-node black"></span> Black node</div>
+                <div class="legend-item"><span class="legend-node active"></span> Active node</div>
+            </div>
+        </header>
+
+        <section class="control-card glass-card">
+            <div class="input-row">
+                <div class="input-wrap">
+                    <label for="numbersInput">Numbers</label>
+                    <input
+                        id="numbersInput"
+                        type="text"
+                        autocomplete="off"
+                        placeholder="Example: 41, 38, 31, 12, 19, 8"
+                        value="41, 38, 31, 12, 19, 8"
+                    >
+                </div>
+                <button id="buildBtn" class="btn btn-primary">
+                    <span>Build Tree</span>
+                </button>
+                <button id="randomBtn" class="btn btn-secondary">Random</button>
+                <button id="resetBtn" class="btn btn-ghost">Reset</button>
+            </div>
+
+            <div class="secondary-controls">
+                <div class="transport">
+                    <button id="prevBtn" class="icon-btn" title="Previous step">⏮</button>
+                    <button id="playBtn" class="icon-btn play-btn" title="Play">▶</button>
+                    <button id="nextBtn" class="icon-btn" title="Next step">⏭</button>
+                </div>
+
+                <div class="speed-box">
+                    <span>Speed</span>
+                    <input id="speedRange" type="range" min="250" max="1800" value="850" step="50">
+                    <strong id="speedLabel">1.0×</strong>
+                </div>
+
+                <div class="progress-box">
+                    <div class="progress-meta">
+                        <span>Step</span>
+                        <strong><span id="currentStepLabel">0</span>/<span id="totalStepLabel">0</span></strong>
+                    </div>
+                    <div class="progress-track">
+                        <div id="progressBar" class="progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="workspace">
+            <div class="tree-panel glass-card">
+                <div class="panel-top">
+                    <div>
+                        <span class="mini-title">LIVE TREE</span>
+                        <h2>Visualization Canvas</h2>
+                    </div>
+                    <div class="status-pill" id="statusPill">Ready</div>
+                </div>
+
+                <div id="treeViewport" class="tree-viewport">
+                    <svg id="treeSvg" class="tree-svg"></svg>
+                    <div id="emptyState" class="empty-state">
+                        <div class="empty-orbit">
+                            <div class="mini-node red"></div>
+                            <div class="mini-node black"></div>
+                            <div class="mini-node red"></div>
+                        </div>
+                        <h3>Your tree will appear here</h3>
+                        <p>Enter numbers above and click <strong>Build Tree</strong>.</p>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="side-panel">
+                <div class="glass-card info-card">
+                    <span class="mini-title">CURRENT OPERATION</span>
+                    <h2 id="stepTitle">Waiting for input</h2>
+                    <p id="stepDescription">
+                        Build a tree to see every Red-Black Tree operation explained here.
+                    </p>
+
+                    <div class="operation-grid">
+                        <div class="stat-box">
+                            <span>Inserted</span>
+                            <strong id="insertedValue">—</strong>
+                        </div>
+                        <div class="stat-box">
+                            <span>Action</span>
+                            <strong id="actionName">Idle</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card invariant-card">
+                    <span class="mini-title">RED-BLACK RULES</span>
+                    <div id="rulesList" class="rules-list">
+                        <div class="rule ok"><span>✓</span><p>Root is black</p></div>
+                        <div class="rule ok"><span>✓</span><p>No red node has a red child</p></div>
+                        <div class="rule ok"><span>✓</span><p>Equal black-height paths</p></div>
+                        <div class="rule ok"><span>✓</span><p>BST ordering is valid</p></div>
+                    </div>
+                </div>
+
+                <div class="glass-card timeline-card">
+                    <div class="timeline-heading">
+                        <div>
+                            <span class="mini-title">EVENT TIMELINE</span>
+                            <h3>Steps</h3>
+                        </div>
+                        <span id="eventCount" class="count-badge">0</span>
+                    </div>
+                    <div id="timeline" class="timeline"></div>
+                </div>
+            </aside>
+        </section>
+    </main>
+
+    <script src="{% static 'visualizer/js/app.js' %}"></script>
+</body>
+</html>
